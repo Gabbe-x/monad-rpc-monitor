@@ -1,0 +1,55 @@
+# Publishes a static copy of the status page to GitHub Pages on a schedule.
+# History is carried between runs through the actions cache, so uptime figures
+# accumulate over time even though every run is a fresh VM.
+name: Status page
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Restore probe history
+        uses: actions/cache/restore@v4
+        with:
+          path: history.db
+          key: history-${{ github.run_id }}
+          restore-keys: history-
+      - name: Probe endpoints and export
+        run: python -m monad_rpc_monitor export site --methods --db history.db
+      - name: Save probe history
+        uses: actions/cache/save@v4
+        with:
+          path: history.db
+          key: history-${{ github.run_id }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

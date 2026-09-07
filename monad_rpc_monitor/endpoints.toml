@@ -1,0 +1,145 @@
+# monad-rpc-monitor configuration.
+#
+# Only public, keyless endpoints are listed. Rate-limited answers (HTTP 429) are
+# reported as "rate_limited" rather than "down" so that free tiers are not
+# misrepresented as outages. Add your own endpoints (including private ones) below.
+
+[general]
+interval_s = 30          # probe cycle length
+history_window_h = 24    # uptime / latency window shown on the status page
+listen = "0.0.0.0:8080"
+db_path = "monad-rpc-monitor.db"
+
+[thresholds]
+lag_blocks = 20          # blocks behind the best head -> "lagging"
+slow_ms = 1500           # eth_blockNumber slower than this -> "slow"
+timeout_s = 8.0
+consistency_depth = 30   # block (best_head - depth) is compared across endpoints
+method_probe_every = 12  # full method-support probe every N cycles (12 * 30s = 6 min)
+
+[alerts]
+# Optional. Set MONAD_RPC_MONITOR_TELEGRAM_TOKEN / _CHAT_ID env vars or fill in below.
+# telegram_bot_token = ""
+# telegram_chat_id = ""
+# webhook_url = ""            # generic JSON POST (Discord / Slack compatible payload)
+# min_incident_s = 90         # do not alert on blips shorter than this
+
+[networks.mainnet]
+chain_id = 143
+display = "Monad Mainnet"
+explorer = "https://monadvision.com"
+
+[networks.testnet]
+chain_id = 10143
+display = "Monad Testnet"
+explorer = "https://testnet.monadvision.com"
+
+# ---------------------------------------------------------------- mainnet
+[[endpoints]]
+name = "monad-foundation"
+provider = "Monad Foundation"
+network = "mainnet"
+url = "https://rpc.monad.xyz"
+
+[[endpoints]]
+name = "monad-foundation-1"
+provider = "Monad Foundation"
+network = "mainnet"
+url = "https://rpc1.monad.xyz"
+
+[[endpoints]]
+name = "monad-foundation-2"
+provider = "Monad Foundation"
+network = "mainnet"
+url = "https://rpc2.monad.xyz"
+
+[[endpoints]]
+name = "monadinfra"
+provider = "MonadInfra"
+network = "mainnet"
+url = "https://rpc-mainnet.monadinfra.com"
+
+[[endpoints]]
+name = "drpc"
+provider = "dRPC"
+network = "mainnet"
+url = "https://monad-mainnet.drpc.org"
+
+[[endpoints]]
+name = "ankr"
+provider = "Ankr"
+network = "mainnet"
+url = "https://rpc.ankr.com/monad_mainnet"
+
+[[endpoints]]
+name = "tenderly"
+provider = "Tenderly"
+network = "mainnet"
+url = "https://monad.gateway.tenderly.co"
+
+[[endpoints]]
+name = "thirdweb"
+provider = "thirdweb"
+network = "mainnet"
+url = "https://143.rpc.thirdweb.com"
+
+[[endpoints]]
+name = "onfinality"
+provider = "OnFinality"
+network = "mainnet"
+url = "https://monad-mainnet.api.onfinality.io/public"
+
+[[endpoints]]
+name = "blockpi"
+provider = "BlockPI"
+network = "mainnet"
+url = "https://monad.blockpi.network/v1/rpc/public"
+
+# ---------------------------------------------------------------- testnet
+[[endpoints]]
+name = "testnet-monad-foundation"
+provider = "Monad Foundation"
+network = "testnet"
+url = "https://testnet-rpc.monad.xyz"
+
+[[endpoints]]
+name = "testnet-monadinfra"
+provider = "MonadInfra"
+network = "testnet"
+url = "https://rpc-testnet.monadinfra.com"
+
+[[endpoints]]
+name = "testnet-drpc"
+provider = "dRPC"
+network = "testnet"
+url = "https://monad-testnet.drpc.org"
+
+[[endpoints]]
+name = "testnet-ankr"
+provider = "Ankr"
+network = "testnet"
+url = "https://rpc.ankr.com/monad_testnet"
+
+[[endpoints]]
+name = "testnet-tenderly"
+provider = "Tenderly"
+network = "testnet"
+url = "https://monad-testnet.gateway.tenderly.co"
+
+[[endpoints]]
+name = "testnet-thirdweb"
+provider = "thirdweb"
+network = "testnet"
+url = "https://10143.rpc.thirdweb.com"
+
+[[endpoints]]
+name = "testnet-onfinality"
+provider = "OnFinality"
+network = "testnet"
+url = "https://monad-testnet.api.onfinality.io/public"
+
+[[endpoints]]
+name = "testnet-blockpi"
+provider = "BlockPI"
+network = "testnet"
+url = "https://monad-testnet.blockpi.network/v1/rpc/public"

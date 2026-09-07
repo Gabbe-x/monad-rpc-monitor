@@ -1,0 +1,41 @@
+# Example Prometheus alerting rules for monad-rpc-monitor.
+# Scrape config:
+#   - job_name: monad-rpc-monitor
+#     static_configs: [{ targets: ["127.0.0.1:8080"] }]
+groups:
+  - name: monad-rpc
+    rules:
+      - alert: MonadRpcEndpointDown
+        expr: monad_rpc_up == 0
+        for: 3m
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $labels.network }}/{{ $labels.endpoint }} is not answering"
+
+      - alert: MonadRpcEndpointLagging
+        expr: monad_rpc_lag_blocks > 50
+        for: 2m
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $labels.network }}/{{ $labels.endpoint }} is {{ $value }} blocks behind the best head"
+
+      - alert: MonadRpcHashMismatch
+        expr: monad_rpc_consistent == 0
+        for: 1m
+        labels: { severity: critical }
+        annotations:
+          summary: "{{ $labels.network }}/{{ $labels.endpoint }} returns a block hash that differs from the majority"
+
+      - alert: MonadNetworkFewHealthyEndpoints
+        expr: monad_network_healthy_endpoints < 3
+        for: 5m
+        labels: { severity: critical }
+        annotations:
+          summary: "Only {{ $value }} healthy public RPC endpoints on {{ $labels.network }}"
+
+      - alert: MonadRpcMonitorStale
+        expr: time() - monad_rpc_monitor_last_run_timestamp > 300
+        for: 1m
+        labels: { severity: warning }
+        annotations:
+          summary: "monad-rpc-monitor has not completed a probe cycle for 5 minutes"

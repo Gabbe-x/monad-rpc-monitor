@@ -1,0 +1,21 @@
+[Unit]
+Description=Monad RPC endpoint monitor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=monad-monitor
+WorkingDirectory=/var/lib/monad-rpc-monitor
+ExecStart=/usr/local/bin/monad-rpc-monitor -c /etc/monad-rpc-monitor/endpoints.toml serve --listen 127.0.0.1:8080 --db /var/lib/monad-rpc-monitor/monitor.db
+Restart=always
+RestartSec=5
+# EnvironmentFile=/etc/monad-rpc-monitor/alerts.env
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/monad-rpc-monitor
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

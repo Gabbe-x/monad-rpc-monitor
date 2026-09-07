@@ -1,0 +1,20 @@
+services:
+  monad-rpc-monitor:
+    build: .
+    image: monad-rpc-monitor:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - monitor-data:/data
+      # Uncomment to use your own endpoint list:
+      # - ./endpoints.toml:/app/endpoints.toml:ro
+    # command: ["-c", "/app/endpoints.toml", "serve", "--listen", "0.0.0.0:8080", "--db", "/data/monad-rpc-monitor.db"]
+    environment:
+      # MONAD_RPC_MONITOR_TELEGRAM_TOKEN: ""
+      # MONAD_RPC_MONITOR_TELEGRAM_CHAT_ID: ""
+      # MONAD_RPC_MONITOR_WEBHOOK_URL: ""
+      PYTHONUNBUFFERED: "1"
+
+volumes:
+  monitor-data:

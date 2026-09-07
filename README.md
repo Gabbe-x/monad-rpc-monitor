@@ -33,7 +33,7 @@ python3 -m monad_rpc_monitor serve --listen 127.0.0.1:8080
 Example of `once` against live endpoints:
 
 ```
-Monad Mainnet (chain 143)  best head 102816079  healthy 7/10  consistency@102816049: OK
+Monad Mainnet (chain 143)  best head 102816079  healthy 7/9  consistency@102816049: OK
   endpoint                   status          latency       head   lag  client                 error
   monad-foundation           healthy           21 ms  102816079     0  Monad/0.16.1
   ankr                       healthy           33 ms  102816079     0  Monad/0.16.1
@@ -44,7 +44,6 @@ Monad Mainnet (chain 143)  best head 102816079  healthy 7/10  consistency@102816
   monad-foundation-2         healthy          167 ms  102816075     4  Monad/0.16.1
   thirdweb                   rate_limited          -          -     -                         rate_limited: HTTP 429 Too Many Requests
   onfinality                 rate_limited          -          -     -                         rate_limited: HTTP 429 Too Many Requests
-  blockpi                    down                  -          -     -                         http_error: HTTP 503
 ```
 
 ### Docker

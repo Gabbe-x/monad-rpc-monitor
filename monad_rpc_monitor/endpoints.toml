@@ -89,11 +89,6 @@ provider = "OnFinality"
 network = "mainnet"
 url = "https://monad-mainnet.api.onfinality.io/public"
 
-[[endpoints]]
-name = "blockpi"
-provider = "BlockPI"
-network = "mainnet"
-url = "https://monad.blockpi.network/v1/rpc/public"
 
 # ---------------------------------------------------------------- testnet
 [[endpoints]]
@@ -138,8 +133,3 @@ provider = "OnFinality"
 network = "testnet"
 url = "https://monad-testnet.api.onfinality.io/public"
 
-[[endpoints]]
-name = "testnet-blockpi"
-provider = "BlockPI"
-network = "testnet"
-url = "https://monad-testnet.blockpi.network/v1/rpc/public"

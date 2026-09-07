@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "monad-rpc-monitor"
+version = "0.1.0"
+description = "Availability, latency, lag and consistency monitor for public Monad RPC endpoints, with a status page, JSON feed and Prometheus metrics."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "Gabbe-x" }]
+keywords = ["monad", "rpc", "monitoring", "evm", "prometheus", "status-page"]
+classifiers = [
+  "Environment :: Console",
+  "Environment :: Web Environment",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: System :: Monitoring",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Gabbe-x/monad-rpc-monitor"
+"Status page" = "https://gabbe-x.github.io/monad-rpc-monitor/"
+Issues = "https://github.com/Gabbe-x/monad-rpc-monitor/issues"
+
+[project.scripts]
+monad-rpc-monitor = "monad_rpc_monitor.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["monad_rpc_monitor*"]
+
+[tool.setuptools.package-data]
+monad_rpc_monitor = ["endpoints.toml"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"

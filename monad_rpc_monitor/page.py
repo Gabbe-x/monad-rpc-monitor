@@ -58,7 +58,9 @@ function methods(m, probes){ if(!m) return '<span class="muted">method probe not
   return '<div class="methods">' + probes.map(p => { const r = m[p.key]; const cls = !r || r.supported === null ? 'unk' : (r.supported ? '' : 'no');
     return `<span class="${cls}" title="${esc(r && r.error || '')}">${esc(p.key)} <small class="muted">${r && r.latency_ms!=null ? fmt(r.latency_ms)+' ms' : ''}</small></span>`; }).join('') + '</div>'; }
 function render(d){
-  const now = d.generated_at; document.getElementById('sub').textContent = `Updated ${new Date(now*1000).toLocaleString()} · probe every ${d.interval_s}s · ${d.window_h}h window · v${d.version}`;
+  const now = d.generated_at; document.getElementById('sub').textContent = d.static_export
+    ? `Snapshot taken ${new Date(now*1000).toLocaleString()} · rebuilt by GitHub Actions on a schedule; run the monitor yourself for 30-second probing · ${d.window_h}h window · v${d.version}`
+    : `Updated ${new Date(now*1000).toLocaleString()} · probe every ${d.interval_s}s · ${d.window_h}h window · v${d.version}`;
   document.getElementById('thr').textContent = `Thresholds: lagging > ${d.thresholds.lag_blocks} blocks behind best head · slow > ${d.thresholds.slow_ms} ms · consistency checked at best head − ${d.thresholds.consistency_depth}.`;
   let html = '';
   for (const [key, net] of Object.entries(d.networks)) {

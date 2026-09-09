@@ -5,7 +5,8 @@ name: Status page
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    # Off-the-hour minutes: GitHub delays or drops schedules that fire on round minutes.
+    - cron: "4,19,34,49 * * * *"
   workflow_dispatch:
   push:
     branches: [main]

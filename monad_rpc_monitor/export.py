@@ -14,6 +14,7 @@ def export(monitor: Monitor, out_dir: str | Path) -> Path:
     out = Path(out_dir)
     (out / "api" / "v1").mkdir(parents=True, exist_ok=True)
     snap = monitor.snapshot()
+    snap["static_export"] = True
     (out / "index.html").write_text(STATUS_PAGE)
     (out / "api" / "v1" / "status.json").write_text(json.dumps(snap, indent=1))
     (out / "metrics").write_text(metrics.render(snap))
